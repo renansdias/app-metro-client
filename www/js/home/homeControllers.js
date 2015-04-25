@@ -1,4 +1,4 @@
-angular.module('trainTracker.home.controllers', ['ionic'])
+angular.module('appmetro.home.controllers', ['ionic'])
 
 .controller('HomeController', [
 	'$scope',

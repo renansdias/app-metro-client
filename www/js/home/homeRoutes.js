@@ -1,6 +1,6 @@
-angular.module('trainTracker.home.router', [
+angular.module('appmetro.home.router', [
 	'ionic',
-	'trainTracker.home.controllers'
+	'appmetro.home.controllers'
 ])
 
 .config([
