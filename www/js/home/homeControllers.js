@@ -1,10 +1,14 @@
-angular.module('appmetro.home.controllers', ['ionic'])
+angular.module('appmetro.home.controllers', [
+	'ionic',
+	'appmetro.list.routes'
+])
 
 .controller('HomeController', [
 	'$scope',
 	'$ionicModal',
 	'StationService',
-	function($scope, $ionicModal, StationService) {
+	'$state',
+	function($scope, $ionicModal, StationService, $state) {
 		$scope.services = StationService.stations;
 
 		$ionicModal.fromTemplateUrl('templates/modals/modalStationPicker.html', {
@@ -37,7 +41,7 @@ angular.module('appmetro.home.controllers', ['ionic'])
 		}
 
 		$scope.goToList = function() {
-			
+			$state.go('list');
 		}
 	}
 ])
