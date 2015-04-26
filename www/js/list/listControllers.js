@@ -60,6 +60,8 @@ angular.module('appmetro.list.controllers', [
 	'TrainSystemService',
 	'$ionicLoading',
 	function($scope, $stateParams, ListService, TrainSystemService, $ionicLoading) {
+		$scope.socket = undefined;
+
 		/*
 		 * As soon as the map loads, we'll focus it
 		 * on Sé square (just until we get the location 
@@ -117,51 +119,19 @@ angular.module('appmetro.list.controllers', [
 	        	$scope.map.setCenter(LatLng);
 	        	$scope.deleteMarkers();
 	        	$scope.addMarker(LatLng);
+
+	        	$scope.socket = io.connect('http://localhost:3812');
+	        	$scope.socket.emit('trackTrain', train._id);
+
+	        	$scope.socket.on('trainLocationUpdate', function(latitude, longitude) {
+	        		var LatLng = new google.maps.LatLng(latitude, longitude);
+		        	$scope.map.setCenter(LatLng);
+		        	$scope.deleteMarkers();
+		        	$scope.addMarker(LatLng);
+	        	});
 			}, function(err) {
 
 			});
 		}, 2000);
-
-  //       setTimeout(function() {
-  //       	var LatLng = new google.maps.LatLng(-23.546324, -46.60747);
-  //       	$scope.map.setCenter(LatLng);
-  //       	$scope.deleteMarkers();
-  //       	$scope.addMarker(LatLng);
-  //       }, 10000);
-
-  //       setTimeout(function() {
-  //       	var LatLng = new google.maps.LatLng(-23.546580, -46.608522);
-  //       	$scope.map.setCenter(LatLng);
-  //       	$scope.deleteMarkers();
-  //       	$scope.addMarker(LatLng);
-  //       }, 13000);
-
-  //       setTimeout(function() {
-  //       	var LatLng = new google.maps.LatLng(-23.547052, -46.610775);
-  //       	$scope.map.setCenter(LatLng);
-  //       	$scope.deleteMarkers();
-  //       	$scope.addMarker(LatLng);
-  //       }, 16000);
-
-  //       setTimeout(function() {
-  //       	var LatLng = new google.maps.LatLng(-23.547603, -46.613028);
-  //       	$scope.map.setCenter(LatLng);
-  //       	$scope.deleteMarkers();
-  //       	$scope.addMarker(LatLng);
-  //       }, 19000);
-
-  //       setTimeout(function() {
-  //       	var LatLng = new google.maps.LatLng(-23.547701, -46.615410);
-  //       	$scope.map.setCenter(LatLng);
-  //       	$scope.deleteMarkers();
-  //       	$scope.addMarker(LatLng);
-  //       }, 22000);
-
-  //       setTimeout(function() {
-  //       	var LatLng = new google.maps.LatLng(-23.548095, -46.617727);
-  //       	$scope.map.setCenter(LatLng);
-  //       	$scope.deleteMarkers();
-  //       	$scope.addMarker(LatLng);
-  //       }, 25000);
 	}
 ])
