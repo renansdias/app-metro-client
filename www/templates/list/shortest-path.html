@@ -1,5 +1,13 @@
 <ion-view view-title="Caminho mais curto">
 	<ion-content>
-		
+		<ul class="list">
+			<li class="item" ng-repeat="station in stations">
+				{{station.name}}
+	
+				<div ng-repeat="line in station.lines">
+					<i class="icon ion-stop" style="float: right; margin-right: 3px; color: {{line}}"></i>
+				</div>
+			</li>
+		</ul>
 	</ion-content>
 </ion-view>

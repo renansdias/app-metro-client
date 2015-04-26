@@ -9,7 +9,7 @@ angular.module('appmetro.home.controllers', [
 	'StationService',
 	'$state',
 	function($scope, $ionicModal, StationService, $state) {
-		$scope.services = StationService.stations;
+		$scope.services = StationService.stationsFilteredByLine;
 
 		$ionicModal.fromTemplateUrl('templates/modals/modalStationPicker.html', {
 			scope: $scope
@@ -31,17 +31,15 @@ angular.module('appmetro.home.controllers', [
 				$scope.destination = station;
 			}
 
-			alert(JSON.stringify(station));
-			alert($scope.terminalStation);
-			alert("Scope origin: " + $scope.origin);
-			alert("Scope destination: " + $scope.destination);
-
 			// Close modal
 			$scope.stationPickerModal.hide();
 		}
 
 		$scope.goToList = function() {
-			$state.go('list');
+			$state.go('list', {
+				origin: $scope.origin._id,
+				destination: $scope.destination._id
+			});
 		}
 	}
 ])
