@@ -57,7 +57,99 @@ angular.module('appmetro.list.controllers', [
 	'$scope',
 	'$stateParams',
 	'ListService',
-	function($scope, $stateParams, ListService) {
+	'$compile',
+	function($scope, $stateParams, ListService, $compile) {
 
+		
+
+
+
+
+
+
+
+
+
+
+		
+		var myLatlng = new google.maps.LatLng(37.3000, -120.4833);
+	 
+        var mapOptions = {
+            center: myLatlng,
+            zoom: 16,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+ 
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+ 
+        $scope.map = map;
+        $scope.markers = [];
+
+        $scope.addMarker = function(location) {
+			var marker = new google.maps.Marker({
+                position: location,
+                map: $scope.map,
+                title: "Train Location"
+            });
+
+			$scope.markers.push(marker);
+		}
+
+        $scope.setAllMap = function(map) {
+			for (var i = 0; i < $scope.markers.length; i++) {
+				$scope.markers[i].setMap(map);
+			}
+		}
+
+        $scope.clearMarkers = function() {
+			$scope.setAllMap(null);
+		}
+
+        $scope.deleteMarkers = function() {
+		  $scope.clearMarkers();
+		  $scope.markers = [];
+		}
+
+        setTimeout(function() {
+        	var LatLng = new google.maps.LatLng(-23.546324, -46.60747);
+        	$scope.map.setCenter(LatLng);
+        	$scope.deleteMarkers();
+        	$scope.addMarker(LatLng);
+        }, 10000);
+
+        setTimeout(function() {
+        	var LatLng = new google.maps.LatLng(-23.546580, -46.608522);
+        	$scope.map.setCenter(LatLng);
+        	$scope.deleteMarkers();
+        	$scope.addMarker(LatLng);
+        }, 13000);
+
+        setTimeout(function() {
+        	var LatLng = new google.maps.LatLng(-23.547052, -46.610775);
+        	$scope.map.setCenter(LatLng);
+        	$scope.deleteMarkers();
+        	$scope.addMarker(LatLng);
+        }, 16000);
+
+        setTimeout(function() {
+        	var LatLng = new google.maps.LatLng(-23.547603, -46.613028);
+        	$scope.map.setCenter(LatLng);
+        	$scope.deleteMarkers();
+        	$scope.addMarker(LatLng);
+        }, 19000);
+
+        setTimeout(function() {
+        	var LatLng = new google.maps.LatLng(-23.547701, -46.615410);
+        	$scope.map.setCenter(LatLng);
+        	$scope.deleteMarkers();
+        	$scope.addMarker(LatLng);
+        }, 22000);
+
+        setTimeout(function() {
+        	var LatLng = new google.maps.LatLng(-23.548095, -46.617727);
+        	$scope.map.setCenter(LatLng);
+        	$scope.deleteMarkers();
+        	$scope.addMarker(LatLng);
+        }, 25000);
 	}
 ])
