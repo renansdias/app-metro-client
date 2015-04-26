@@ -49,4 +49,25 @@ angular.module('appmetro', ['ionic', 'appmetro.home.router'])
 
         return stationsPath;
     }
-});
+})
+
+.service('TrainSystemService', [
+    '$q',
+    '$http',
+    function($q, $http) {
+        this.getClosestTrain = function(origin, destination) {
+            var queryString = "origin=" + origin + "&destination=" + destination;
+            var deferred = $q.defer();
+
+            var promise = $http.get('http://localhost:3700/trains/closest?' + queryString);
+
+            promise.then(function(result) {
+                deferred.resolve(result.data);
+            }, function(err) {
+                deferred.reject(err);
+            })
+
+            return deferred.promise;
+        }
+    }
+]);
