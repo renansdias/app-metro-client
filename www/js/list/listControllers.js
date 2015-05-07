@@ -115,23 +115,31 @@ angular.module('appmetro.list.controllers', [
 			promise.then(function(train) {
 				$ionicLoading.hide();
 
-				var LatLng = new google.maps.LatLng(train.location.latitude, train.location.longitude);
-	        	$scope.map.setCenter(LatLng);
-	        	$scope.deleteMarkers();
-	        	$scope.addMarker(LatLng);
+				if (typeof train.location !== 'undefined') {
+					var LatLng = new google.maps.LatLng(train.location.latitude, train.location.longitude);
+					$scope.map.setCenter(LatLng);
+					$scope.deleteMarkers();
+					$scope.addMarker(LatLng);
 
-	        	$scope.socket = io.connect('http://localhost:3812');
-	        	$scope.socket.emit('trackTrain', train._id);
+					$scope.socket = io.connect('http://localhost:3812');
+					$scope.socket.emit('trackTrain', train._id);
 
-	        	$scope.socket.on('trainLocationUpdate', function(latitude, longitude) {
-	        		var LatLng = new google.maps.LatLng(latitude, longitude);
-		        	$scope.map.setCenter(LatLng);
-		        	$scope.deleteMarkers();
-		        	$scope.addMarker(LatLng);
-	        	});
+					$scope.socket.on('trainLocationUpdate', function(latitude, longitude) {
+						var LatLng = new google.maps.LatLng(latitude, longitude);
+				    	$scope.map.setCenter(LatLng);
+				    	$scope.deleteMarkers();
+				    	$scope.addMarker(LatLng);
+					});
+				} else {
+					alert('Não há nenhum trem vindo em sua direção. Por favor, espere um momento e tente novamente.');
+				}
 			}, function(err) {
 
 			});
 		}, 2000);
+
+		$scope.$on('$destroy', function() {
+			$scope.socket.disconnect();
+		});
 	}
 ])
