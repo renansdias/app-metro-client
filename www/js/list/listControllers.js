@@ -60,7 +60,6 @@ angular.module('appmetro.list.controllers', [
 	'TrainSystemService',
 	'$ionicLoading',
 	function($scope, $stateParams, ListService, TrainSystemService, $ionicLoading) {
-		$scope.socket = undefined;
 
 		/*
 		 * As soon as the map loads, we'll focus it
@@ -137,9 +136,5 @@ angular.module('appmetro.list.controllers', [
 
 			});
 		}, 2000);
-
-		$scope.$on('$destroy', function() {
-			$scope.socket.disconnect();
-		});
 	}
 ])
