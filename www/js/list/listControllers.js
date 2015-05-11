@@ -60,7 +60,6 @@ angular.module('appmetro.list.controllers', [
 	'TrainSystemService',
 	'$ionicLoading',
 	function($scope, $stateParams, ListService, TrainSystemService, $ionicLoading) {
-		$scope.socket = undefined;
 
 		/*
 		 * As soon as the map loads, we'll focus it
@@ -115,7 +114,7 @@ angular.module('appmetro.list.controllers', [
 			promise.then(function(train) {
 				$ionicLoading.hide();
 
-				if (typeof train.location.latitude !== 'undefined') {
+				if (typeof train.location !== 'undefined') {
 					var LatLng = new google.maps.LatLng(train.location.latitude, train.location.longitude);
 					$scope.map.setCenter(LatLng);
 					$scope.deleteMarkers();
