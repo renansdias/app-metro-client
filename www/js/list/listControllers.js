@@ -25,6 +25,13 @@ angular.module('appmetro.list.controllers', [
 				destination: $scope.destination
 			});
 		}
+
+		$scope.goToClosestTrainDistanceTemplate = function() {
+			$state.go('closest-train-distance', {
+				origin: $scope.origin,
+				destination: $scope.destination
+			});
+		}
 	}
 ])
 
@@ -136,5 +143,42 @@ angular.module('appmetro.list.controllers', [
 
 			});
 		}, 2000);
+	}
+])
+
+.controller('ClosestTrainDistanceController', [
+	'$scope',
+	'$stateParams',
+	'TrainSystemService',
+	'$ionicLoading',
+	function($scope, $stateParams, TrainSystemService, $ionicLoading) {
+		$scope.trainDistance = 0;
+
+		$ionicLoading.show({
+			template: 'Carregando...'
+		});
+
+		setTimeout(function() {
+			var promise = TrainSystemService.getClosestTrain($stateParams.origin, $stateParams.destination);
+
+			promise.then(function(train) {
+				$ionicLoading.hide();
+
+				if (typeof train.location !== 'undefined') {
+					$scope.socket = io.connect('http://localhost:3812');
+					$scope.socket.emit('trackDistanceBetweenTrainAndStation', train, $stateParams.origin);
+
+					$scope.socket.on('trainDistanceUpdate', function(distance) {
+						$scope.trainDistance = distance;
+						$scope.$apply();
+						console.log('Distance: ' + distance);
+					});
+				} else {
+					alert('Não há nenhum trem vindo em sua direção. Por favor, espere um momento e tente novamente.');
+				}
+			}, function(err) {
+
+			});
+		}, 2000);	
 	}
 ])

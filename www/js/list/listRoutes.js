@@ -23,4 +23,10 @@ angular.module('appmetro.list.routes', [
 		templateUrl: 'templates/list/closest-train.html',
 		controller: 'ClosestTrainController'
 	})
+
+	.state('closest-train-distance', {
+		url: '/list/closest-train-distance?origin&destination',
+		templateUrl: 'templates/list/closest-train-distance.html',
+		controller: 'ClosestTrainDistanceController'
+	})
 }])
