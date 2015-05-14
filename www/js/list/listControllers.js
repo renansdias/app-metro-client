@@ -152,7 +152,13 @@ angular.module('appmetro.list.controllers', [
 	'TrainSystemService',
 	'$ionicLoading',
 	function($scope, $stateParams, TrainSystemService, $ionicLoading) {
-		$scope.trainDistance = 0;
+		var ionicLoadingHasHidden = false;
+		var hasTrainReachedStation = false;
+
+		$scope.trainResult = {
+			trainLabel: "O trêm está a:",
+			trainDistance: ""
+		};
 
 		$ionicLoading.show({
 			template: 'Carregando...'
@@ -162,16 +168,27 @@ angular.module('appmetro.list.controllers', [
 			var promise = TrainSystemService.getClosestTrain($stateParams.origin, $stateParams.destination);
 
 			promise.then(function(train) {
-				$ionicLoading.hide();
-
 				if (typeof train.location !== 'undefined') {
 					$scope.socket = io.connect('http://localhost:3812');
 					$scope.socket.emit('trackDistanceBetweenTrainAndStation', train, $stateParams.origin);
 
 					$scope.socket.on('trainDistanceUpdate', function(distance) {
-						$scope.trainDistance = distance;
+						if (!ionicLoadingHasHidden) {
+							$ionicLoading.hide();
+							ionicLoadingHasHidden = !ionicLoadingHasHidden;
+						}
+
+						if (distance >= 1000) {
+							$scope.trainResult.trainDistance = (Math.round(((distance/1000.0) + 0.00001) * 100) / 100).toString() + " km";
+						} else {
+							$scope.trainResult.trainDistance = (Math.round(distance)).toString() + " m";
+
+							if (distance === 0) {
+								$scope.trainResult.trainLabel = "O trêm chegou na estação!"
+							}
+						}
+
 						$scope.$apply();
-						console.log('Distance: ' + distance);
 					});
 				} else {
 					alert('Não há nenhum trem vindo em sua direção. Por favor, espere um momento e tente novamente.');

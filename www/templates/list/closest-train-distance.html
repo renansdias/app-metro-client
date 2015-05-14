@@ -1,5 +1,12 @@
 <ion-view view-title="Distância do Trêm mais perto">
 	<ion-content>
-		<span>{{trainDistance}}</span>
+		<div class="train-distance-label">
+			<span>{{trainResult.trainLabel}}</span>
+			<br>
+		</div>
+
+		<div class="train-distance">
+			<span>{{trainResult.trainDistance}}</span>
+		</div>
 	</ion-content>
 </ion-view>
