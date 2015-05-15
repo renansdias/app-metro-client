@@ -1,17 +1,48 @@
 <ion-view view-title="Estações">
-	<ion-content>
+	<ion-content scroll="false">
+
+		<a class="card" ng-click="openEstationPickerModal('origin')">
+			
+			<div class="card-header" ng-show="showDefaultHeaderForOrigin" style="background-color: #D8D4D8"></div>
+			<div class="card-header" ng-hide="showDefaultHeaderForOrigin" style="background-color: {{origin.lines[0]}}"></div>
+			
+			<div ng-hide="originHasBeenChosen" class="item item-text-wrap">
+				{{initialLabels.origin}}
+			</div>
+
+			<div style="line-height: 30px;" ng-show="originHasBeenChosen" class="item item-text-wrap">
+				Origem: {{origin.name}}
+				<br>
+				<div ng-repeat="(lineIndex, line) in origin.translatedLines">
+					<span ng-if="lineIndex === 0">Linha(s): </span>
+					<span ng-if="lineIndex < origin.translatedLines.length - 1">{{line}}, </span>
+					<span ng-if="lineIndex === origin.translatedLines.length - 1">{{line}}</span>
+				</div>
+			</div>
+		</a>
+
+		<a class="card" ng-click="openEstationPickerModal('destiny')">
+			<div class="card-header" ng-show="showDefaultHeaderForDestination" style="background-color: #D8D4D8"></div>
+			<div class="card-header" ng-hide="showDefaultHeaderForDestination" style="background-color: {{destination.lines[0]}}"></div>
+			
+			<div ng-hide="destinationHasBeenChosen" class="item item-text-wrap">
+				{{initialLabels.destination}}
+			</div>
+
+			<div style="line-height: 30px;" ng-show="destinationHasBeenChosen" class="item item-text-wrap">
+				Origem: {{destination.name}}
+				<br>
+				<div ng-repeat="(lineIndex, line) in destination.translatedLines">
+					<span ng-if="lineIndex === 0">Linha(s): </span>
+					<span ng-if="lineIndex < origin.translatedLines.length - 1">{{line}}, </span>
+					<span ng-if="lineIndex === origin.translatedLines.length - 1">{{line}}</span>
+				</div>
+			</div>
+		</a>
 		
-		<button ng-click="openEstationPickerModal('origin')" class="button button-block button-light">
-			<!-- Escolha a estação de partida -->
-			Estação Origem
+		<button ng-click="goToList()" class="button button-block button-balanced">
+			Proceder
 		</button>
-
-		<button ng-click="openEstationPickerModal('destiny')" class="button button-block button-light">
-			<!-- Escolha a estação de destino -->
-			Estação Destino
-		</button>
-
-		<button ng-click="goToList()">Proceed</button>
 
 	</ion-content>
 </ion-view>

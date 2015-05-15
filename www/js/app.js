@@ -49,6 +49,17 @@ angular.module('appmetro', ['ionic', 'appmetro.home.router'])
 
         return stationsPath;
     }
+
+    this.getStationForStationId = function(stationId) {
+        var station = undefined;
+
+        this.stations.forEach(function(elem) {
+            if (elem._id === stationId)
+                station = elem;
+        });
+
+        return station;
+    }
 })
 
 .service('TrainSystemService', [

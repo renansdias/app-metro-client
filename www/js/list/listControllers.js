@@ -157,7 +157,7 @@ angular.module('appmetro.list.controllers', [
 
 		$scope.trainResult = {
 			trainLabel: "O trêm está a:",
-			trainDistance: ""
+			trainDistance: "---"
 		};
 
 		$ionicLoading.show({
@@ -191,6 +191,11 @@ angular.module('appmetro.list.controllers', [
 						$scope.$apply();
 					});
 				} else {
+					if (!ionicLoadingHasHidden) {
+						$ionicLoading.hide();
+						ionicLoadingHasHidden = !ionicLoadingHasHidden;
+					}
+
 					alert('Não há nenhum trem vindo em sua direção. Por favor, espere um momento e tente novamente.');
 				}
 			}, function(err) {
