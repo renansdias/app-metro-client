@@ -2,10 +2,9 @@
 	<ion-content>
 		<ul class="list">
 			<li class="item" ng-repeat="station in stations">
-				{{station.name}}
-	
-				<div ng-repeat="line in station.lines">
-					<i class="icon ion-stop" style="float: right; margin-right: 3px; color: {{line}}"></i>
+				<div>
+					{{station.name}}
+					<i ng-repeat="line in station.lines" class="icon ion-stop" style="float: right; margin-right: 3px; color: {{line}}"></i>
 				</div>
 			</li>
 		</ul>
